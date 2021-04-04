@@ -2,9 +2,9 @@
 <document>
    <title>Categories mére et filles</title>
    <author>GC-Nomade</author>
-   <version>1.0</version>
-   <date>26/03/2021</date>
+   <version>2.0</version>
+   <date>04/04/2021</date>
     <site>https://re7net.com</site>
     <repository>https://github.com/gcyrillus/plx-gc-categories</repository>
-   <description>Plugin permettant de déclarer des catégories mere et filles. Dans la sidebar, seuls les categories soeurs et meres sont affichées, sauf en page home </description>
+   <description>Plugin permettant de déclarer des catégories mere et filles et de cloissoner celles ci au cours de la navigation sur le site. Ne s'affiche alors que les catégories, derniers articles et tags reliés à la catégorie mere de la page en cours. Possibilité de faire apparaitre la/les catégories meres dans le menu et le fil d'arianne.</description>
 </document>
