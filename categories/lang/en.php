@@ -1,0 +1,8 @@
+<?php
+$LANG = array(
+	'L_CAT_LIST_MOTHER'		=> 'Mother',
+	'L_CAT_LIST_DAUGHTER'	=> 'Daughter',
+	'L_ORPHAN'				=> 'orphan',
+	'L_DAUGHTER_OF'			=> 'Daughter Of',
+);
+
