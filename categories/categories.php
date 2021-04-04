@@ -249,7 +249,6 @@ class categories extends plxPlugin {
 	public function plxShowTagList() {
 		echo self::BEGIN_CODE;
 ?>		
-
 		#tableau des catégories filtreés
 		$newTagList = array();
 		#notre filtre
@@ -264,7 +263,7 @@ class categories extends plxPlugin {
 		}
         
 		#on verifie que l'on a bien un filtre, sinon on sort:
-		if($catNum ==='') {
+		if($filter !=='') {
 		
 		#on filtre les articles reliée a la categorie $filter
 		foreach($filter as $keytest => $ask ) {
@@ -283,12 +282,10 @@ class categories extends plxPlugin {
 					}						
 				}
 			}
-		}
-					
+		}		
 		#On ecrase la liste des tags avec la nouvelle
 		$this->plxMotor->aTags = $newTagList;	
 		}
-
 <?php
 
 		echo self::END_CODE;		
