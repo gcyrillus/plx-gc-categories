@@ -50,9 +50,7 @@ class categories extends plxPlugin {
 	public function plxShowLastCatList($extra = '', $format = '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother"><a href="#cat_url" title="#cat_name">#cat_name</a></li>', $include = '', $exclude = '') {
 
 		echo self::BEGIN_CODE;
-?>
-
-    
+?>    
 	#Initialisation de variables
 	$okay=false;	       // tant que l'on a pas trouvé de mother="1" 
 	$currentCats=array();  // pour ajouter une premiere clé si non initialisé
@@ -64,7 +62,7 @@ class categories extends plxPlugin {
 		
 	
 	#on recherche le mode dans lequel nous sommes
-	if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== 'static') || ($this->plxMotor->mode === 'article' )  ) {
+	if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== 'static') && ($this->plxMotor->mode !== 'user' )  || ($this->plxMotor->mode === 'article' ) ) {
 		$currentCats = $this->catId(true);
 	}
 	
@@ -81,7 +79,7 @@ class categories extends plxPlugin {
 		}
 	}
 
-	if(($this->plxMotor->mode !=='archives') && ($this->plxMotor->mode !=='tags') ){
+	if(($this->plxMotor->mode !=='archives') && ($this->plxMotor->mode !=='tags')&& ($this->plxMotor->mode !== 'user' ) ){
 		#recherche categorie en cours 
 		foreach($currentCats as $catKey) {	
 			array_push( $keySearch, $catKey) ;
@@ -213,7 +211,7 @@ class categories extends plxPlugin {
 		echo self::BEGIN_CODE;
 ?>		
 		#on recherche le mode dans lequel nous sommes
-	if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== 'static')&& ($this->plxMotor->mode !== 'tags') && ($this->plxMotor->mode !=='home')&& ($this->plxMotor->mode !=='archives') || ($this->plxMotor->mode === 'article' )  || ($this->plxMotor->mode === 'categorie' )  ) {
+	if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== 'static')&& ($this->plxMotor->mode !== 'tags') && ($this->plxMotor->mode !=='home') && ($this->plxMotor->mode !== 'user' )&& ($this->plxMotor->mode !=='archives') || ($this->plxMotor->mode === 'article' )  || ($this->plxMotor->mode === 'categorie' )  ) {
 		$currentCats = $this->catId(true);
 		$catIdCount = count(array_column($currentCats, null));
 		if (($catIdCount === 1 ) && ($this->plxMotor->aCats[ $currentCats[0]]['mother'] !=="1" )){
