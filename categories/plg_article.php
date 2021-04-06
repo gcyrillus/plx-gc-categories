@@ -13,7 +13,6 @@ if(!empty($_POST)) { # Création, mise à jour, suppression ou aperçu
 
 	if(!isset($_POST['catId'])) $_POST['catId']=array();
 	if(isset($_POST['catId'])) {
-		var_dump($_POST['catId']);
 			######### ajout catégorie mere au catégorie de l'article
 			$doublon='';
 			foreach($_POST['catId'] as $k => $v) {
@@ -165,6 +164,7 @@ if(!empty($_POST)) { # Création, mise à jour, suppression ou aperçu
 	$thumbnail = $_POST['thumbnail'];
 	$thumbnail_title = $_POST['thumbnail_title'];
 	$thumbnail_alt = $_POST['thumbnail_alt'];
+
 	# Hook Plugins
 	eval($plxAdmin->plxPlugins->callHook('AdminArticlePostData'));
 } elseif(!empty($_GET['a'])) { # On n'a rien validé, c'est pour l'édition d'un article

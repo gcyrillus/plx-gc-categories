@@ -49,7 +49,7 @@ $plxShow->catList('','&lt;li>&lt;a href="#cat_url">#cat_name</a></li>', '9999');
 	<p><strong>Une catégorie ne peut pas être à la fois mother et daughterOf, alors <b>NE selectionnez pas les deux !</b></strong></p>
 	<p><i> Vous avez déjà lu(ou pas) cette partie en validant sa comprehension par  <?php plxUtils::printSelect( 'seen',      array('0'=>L_NO ,'1'=>L_YES), $plxPlugin->getParam('seen'), 'readonly'); ?>.</i></p>
 	<h2> Extras</h2>
-	<h3>Ajout au fil d'arianne</h3>
+	<h3>Ajout au fil d'ariane</h3>
 	<p>Vous pouvez inserer la categorie mére dans le fil d'arianne avec le code suivant dans les fichiers <code>categorie.php</code> et <code>categorie-full-width.php</code> du theme:<br>
 	<pre><code>$plxShow->catList('','&lt;?li>&lt;?a href="#cat_url">#cat_name</a></li>', '9999');</code></pre></p>
 	<p>Où  9999 affichera le lien vers la catégorie mére.</p>
