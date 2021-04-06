@@ -9,6 +9,7 @@ class categories extends plxPlugin {
 	public $okay =false;
 
 	const HOOKS = array(
+		'plxShowPluginsCss',
 		'plxShowLastCatList',
 		'plxShowLastArtList',
 		'plxShowTagList',
@@ -46,23 +47,35 @@ class categories extends plxPlugin {
 		
 
 	}
+	
+	public function plxShowPluginsCss() {
+				echo self::BEGIN_CODE;
+?>
+			echo '	<link rel="stylesheet" href="'.PLX_ROOT.'plugins/categories/css/site.css" type="text/css" media="screen" />'.PHP_EOL;
+<?php
+		echo self::END_CODE;	
+	}
 
-	public function plxShowLastCatList($extra = '', $format = '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother"><a href="#cat_url" title="#cat_name">#cat_name</a></li>', $include = '', $exclude = '') {
+
+
+	public function plxShowLastCatList($extra = '', $format = '',  $include = '', $exclude = '') {
 
 		echo self::BEGIN_CODE;
-?>    
+?>
+
+    
 	#Initialisation de variables
 	$okay=false;	       // tant que l'on a pas trouvé de mother="1" 
-	$currentCats=array();  // pour ajouter une premiere clé si non initialisé
+	$currentCats[]=array();  // pour ajouter une premiere clé si non initialisé
 	$keySearch = array();  // tableau de categorie rechercher
 	$mother_Set='000';     // tant que l'on a pas trouvé de categorie mother principale
 	$cat_to_set = array(); // stocke les catégorie a affiché
 	$cats_found = array(); // stocke toutes les catégories trouvées -- doublon ?
 	$sister='';            // stocke ajoute la catégorie au tableau des catégories a afficher
-		
+	$format = '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother"><a href="#cat_url" title="#cat_name">#cat_name</a></li>'.PHP_EOL;	
 	
 	#on recherche le mode dans lequel nous sommes
-	if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== 'static') && ($this->plxMotor->mode !== 'user' )  || ($this->plxMotor->mode === 'article' ) ) {
+	if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== 'static') || ($this->plxMotor->mode === 'article' )  ) {
 		$currentCats = $this->catId(true);
 	}
 	
@@ -79,7 +92,7 @@ class categories extends plxPlugin {
 		}
 	}
 
-	if(($this->plxMotor->mode !=='archives') && ($this->plxMotor->mode !=='tags')&& ($this->plxMotor->mode !== 'user' ) ){
+	if(($this->plxMotor->mode !=='archives') && ($this->plxMotor->mode !=='tags') ){
 		#recherche categorie en cours 
 		foreach($currentCats as $catKey) {	
 			array_push( $keySearch, $catKey) ;
@@ -211,7 +224,7 @@ class categories extends plxPlugin {
 		echo self::BEGIN_CODE;
 ?>		
 		#on recherche le mode dans lequel nous sommes
-	if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== 'static')&& ($this->plxMotor->mode !== 'tags') && ($this->plxMotor->mode !=='home') && ($this->plxMotor->mode !== 'user' )&& ($this->plxMotor->mode !=='archives') || ($this->plxMotor->mode === 'article' )  || ($this->plxMotor->mode === 'categorie' )  ) {
+	if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== 'static')&& ($this->plxMotor->mode !== 'tags') && ($this->plxMotor->mode !=='home')&& ($this->plxMotor->mode !=='archives') || ($this->plxMotor->mode === 'article' )  || ($this->plxMotor->mode === 'categorie' )  ) {
 		$currentCats = $this->catId(true);
 		$catIdCount = count(array_column($currentCats, null));
 		if (($catIdCount === 1 ) && ($this->plxMotor->aCats[ $currentCats[0]]['mother'] !=="1" )){
@@ -386,34 +399,7 @@ if($plxAdmin->aCats) {
 		
 	}
 
-	#remplacement du lien d'edition des categories categories.php par plg_categories.php ou sont ausssi affichés les champs(select) de mother et daughterOf
-	public function AdminTopMenus() {
-		echo self::BEGIN_CODE;
-?>
-/*
-#remplace la page categories.php par celle du plugin
-$search = 'categories.php';
-foreach($menus as $k=>$v) {
-	if(preg_match("/\b$search\b/i", $v)) {
-		$menus[$k] = $v;
-		$v = str_replace($search, PLX_ROOT.'plugins/categories/plg_categories.php', $v);
-		$menus[$k] = $v;
-	}
-}
 
-
-#remplace la page article.php par celle du plugin
-$search = 'article.php';
-foreach($menus as $k=>$v) {
-	if(preg_match("/\b$search\b/i", $v)) {
-		$menus[$k] = $v;
-		$v = str_replace($search, PLX_ROOT.'plugins/categories/plg_article.php', $v);
-		$menus[$k] = $v;
-	}
-}*/
-<?php
-		echo self::END_CODE;
-	}
 
 	#mise a jour du renvoi vers la page plg_categories.php au lieu de categories.php si le plugin est actif
 	public function AdminCategoriesPrepend() {
