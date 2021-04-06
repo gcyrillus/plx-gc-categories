@@ -16,3 +16,7 @@ It is an easy and light CMS using XML file to store datas.
 Official Website : https://pluxml.org/ 
 
 Have fun, take care.
+
+
+
+*You have to break a shell to eat an egg, if you boil it ... you may just watch it.*
