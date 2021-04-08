@@ -20,3 +20,7 @@ Have fun, take care.
 
 
 *You have to break a shell to eat an egg, if you boil it ... you may just watch it.*
+
+...
+
+*once cold, your boiled egg makes a nice plain template to paint an easter egg.*
