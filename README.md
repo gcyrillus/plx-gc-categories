@@ -1,8 +1,6 @@
 # plx-gc-categories
 
-Plug-in written for Pluxml >5.8.5 + , running php 7.2.19 (8 should be fine).
-
-New Branch supposed to be compatible from 5.5 PLX Version.
+Plug-in written for Pluxml 5.5 to 5.8.5 + , running php 7.2.19 (8 should be fine).
 
 The idea is to set categories as main categories(mother) and relate others(daughterOf) to a mother categorie.
 When going throught the website, sidebar should only show sisters of that mother catégorie as for last articles and related tags links.
