@@ -15,7 +15,9 @@ But, What is PluXML ?
 It is an easy and light CMS using XML file to store datas.
 Official Website : https://pluxml.org/ 
 
-Here is an example of the plugin in action sorting in four groups the twelve bokks of "les Fables de la Fontaine" . http://gcyrillus.alwaysdata.net/
+Here is an example of the plugin in action, 
+http://gcyrillus.alwaysdata.net/ ,
+sorting in four groups the twelve books of the 240 " Fables de la Fontaine" . 
 
 Have fun, take care.
 
