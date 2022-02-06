@@ -153,6 +153,7 @@ class categories extends plxPlugin {
 		#on recherche le mode dans lequel nous sommes
 		$modeFound='';
 		$plxMotor = plxMotor::getInstance();
+		  // checks if PLX_EBook plugin is set & avalaible
 		  if(isset($plxMotor->plxPlugins->aPlugins['EBook'])) { $modeFound = $plxMotor->plxPlugins->aPlugins['EBook']->getParam('url');}
 		#on regarde si on est en preview, si l'on a plus d'une categorie soeur et on alimente le tableau.
 		if((!isset($_GET['preview']))  && ($keySearchCount === 1 ) && ($this->plxMotor->mode !=='maxiContact' ) && ($this->plxMotor->mode !='tags') && ($this->plxMotor->mode !=$modeFound )) {
