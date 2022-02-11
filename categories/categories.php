@@ -292,7 +292,7 @@ class categories extends plxPlugin {
 ?>		
 		#on recherche le mode dans lequel nous sommes
 		$modeFound='';
-		if ($this->plxMotor->mode !='article' || $this->plxMotor->mode !='categorie') {$modeFound=$this->plxMotor->mode;}
+		if ($this->plxMotor->mode !='article' && $this->plxMotor->mode !='categorie') {$modeFound=$this->plxMotor->mode;}
 	if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== $modeFound)    ) 	
 	{
 		$currentCats = $this->catId(true);
