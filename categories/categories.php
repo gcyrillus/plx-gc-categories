@@ -97,7 +97,7 @@ class categories extends plxPlugin {
 			}
 		}
 		
-		#initialison $currentsCats par défaut pour le mode home et preview //line 23
+		#initialison $currentsCats par défaut pour le mode home et preview 
 		if ($this->plxMotor->mode === 'home' || (isset($_GET['preview'])))  $currentCats[]='';
 	    if (version_compare(PLX_VERSION, '5.8.5', '<')) $currentCats=$this->plxMotor->activeCats ;
 
@@ -151,12 +151,11 @@ class categories extends plxPlugin {
 		}
 
 		#on recherche le mode dans lequel nous sommes
-		$modeFound='';
+		$modeFound='tags';// valeur par défaut 
 		$plxMotor = plxMotor::getInstance();
-		  // checks if PLX_EBook plugin is set & avalaible
-		 // if(isset($plxMotor->plxPlugins->aPlugins['EBook'])) { $modeFound = $plxMotor->plxPlugins->aPlugins['EBook']->getParam('url');}
+		if (class_exists('EBook')) { $modeFound =  $plxMotor->plxPlugins->aPlugins['EBook']->getParam('url');}// TODO : TEST loop sur plugins et hook plxShowStaticListEnd si injection dans le menu statique
 		#on regarde si on est en preview, si l'on a plus d'une categorie soeur et on alimente le tableau.
-		if((!isset($_GET['preview']))  && ($keySearchCount === 1 ) && ($this->plxMotor->mode !=='maxiContact' ) && ($this->plxMotor->mode !='tags') /* && ($this->plxMotor->mode !=$modeFound )*/) {
+		if((!isset($_GET['preview']))  && ($keySearchCount === 1 ) && ($this->plxMotor->mode !=='maxiContact' ) && ($this->plxMotor->mode !='tags') && ($this->plxMotor->mode !=$modeFound )) {
 
 				$sister= $this->plxMotor->aCats[ $keySearch[0]]['daughterOf'];
 				$cat_to_set[]=$sister;
