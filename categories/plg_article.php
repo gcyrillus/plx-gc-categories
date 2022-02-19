@@ -15,8 +15,8 @@ if(!empty($_POST)) { # Création, mise à jour, suppression ou aperçu
 	if(isset($_POST['catId'])) {
 			######### ajout catégorie mere au catégorie de l'article
 			$doublon='';
-			foreach($_POST['catId'] as $k => $v) {
-				if($v!='draft') {
+			foreach($_POST['catId'] as $k => $v) {				
+				if($v!=='draft' && $v!=='home') {
 					$array[]=$v;
 					echo '<br>'.$v .' - '.$doublon;
 					if ($doublon !== $plxAdmin->aCats[$v]['daughterOf']) {
