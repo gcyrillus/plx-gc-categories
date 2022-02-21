@@ -47,13 +47,12 @@ include 'top.php';
 	<?php eval($plxAdmin->plxPlugins->callHook('AdminCategoriesTop')) # Hook Plugins ?>
 
 
-
 	<div class="scrollable-table">
 		<table id="categories-table" class="full-width plg_table" data-rows-num='name$="_ordre"'>
 			<thead>
 				<tr>
 					<th class="checkbox"><input type="checkbox" onclick="checkAll(this.form, 'idCategory[]')" /></th>
-					<th><?= L_ID ?></th>
+					<th><?php if(PLX_VERSION < 5.6) {echo 'N°';} else {echo  L_ID ;} ?></th>
 					<th><?= L_CAT_LIST_NAME ?></th>
 					<th><?= L_CAT_LIST_URL ?></th>
 					<th><?php echo $plgPlugin->lang('L_CAT_LIST_MOTHER'); ?></th>

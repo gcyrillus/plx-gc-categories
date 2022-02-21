@@ -13,15 +13,16 @@ if(!empty($_POST)) { # Création, mise à jour, suppression ou aperçu
 
 	if(!isset($_POST['catId'])) $_POST['catId']=array();
 	if(isset($_POST['catId'])) {
-			######### ajout catégorie mere au catégorie de l'article
+			######### ajout catégorie mere aux catégories de l'article
 			$doublon='';
-			foreach($_POST['catId'] as $k => $v) {				
+			foreach($_POST['catId'] as $k => $v) {
 				if($v!=='draft' && $v!=='home') {
 					$array[]=$v;
 					echo '<br>'.$v .' - '.$doublon;
 					if ($doublon !== $plxAdmin->aCats[$v]['daughterOf']) {
 						$doublon=$plxAdmin->aCats[$v]['daughterOf'];
 						array_push($_POST['catId'],$doublon);
+						
 					}
 				}
 			}
@@ -74,7 +75,8 @@ if(!empty($_POST)) { # Création, mise à jour, suppression ou aperçu
 		$art['date_update'] = $_POST['date_update_year'].$_POST['date_update_month'].$_POST['date_update_day'].substr(str_replace(':','',$_POST['date_update_time']),0,4);
 		$art['nb_com'] = 0;
 		$tmpstr = (!empty(trim($_POST['url']))) ? $_POST['url'] : $_POST['title'];
-		$art['url'] = plxUtils::urlify($tmpstr);
+		if ( PLX_VERSION < '5.8') $t = plxUtils::title2url($tmpstr);
+		else $art['url'] = plxUtils::urlify($tmpstr);
 		if(empty($art['url'])) $art['url'] = L_DEFAULT_NEW_ARTICLE_URL;
 
 		# Hook Plugins
@@ -96,7 +98,9 @@ if(!empty($_POST)) { # Création, mise à jour, suppression ou aperçu
 
 		$valid = true;
 		# Vérification de l'unicité de l'url
-		$url = plxUtils::urlify(!empty($_POST['url']) ? $_POST['url'] : $_POST['title']);
+		if ( PLX_VERSION < '5.8') 	$_POST['url'] = plxUtils::title2url(trim($_POST['url'])==''?$_POST['title']:$_POST['url']);
+		else $url = plxUtils::urlify(!empty($_POST['url']) ? $_POST['url'] : $_POST['title']);
+		
 		foreach($plxAdmin->plxGlob_arts->aFiles as $numart => $filename) {
 			if(preg_match("/^_?[0-9]{4}.([0-9,|home|draft]*).[0-9]{3}.[0-9]{12}.$url.xml$/", $filename)) {
 				if($numart!=str_replace('_', '',$_POST['artId'])) {
@@ -518,7 +522,8 @@ function refreshImg(dta) {
 									if($tags = array_map('trim', explode(',', $tag['tags']))) {
 										foreach($tags as $tag) {
 											if($tag!='') {
-												$t = plxUtils::urlify($tag);
+												if ( PLX_VERSION < '5.8') $t = plxUtils::title2url($tag);
+												else $t = plxUtils::urlify($tag);
 												if(!isset($array[$tag]))
 													$array[$tag]=array('url'=>$t,'count'=>1);
 												else

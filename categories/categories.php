@@ -23,6 +23,7 @@ class categories extends plxPlugin {
 		'AdminCategory',
 		'AdminCategoriesPrepend',
 		'AdminArticlePrepend',
+		'plxShowStaticListEnd',
 	);
 	const BEGIN_CODE = '<?php' . PHP_EOL;
 	const END_CODE = PHP_EOL . '?>';
@@ -43,7 +44,7 @@ class categories extends plxPlugin {
 		
 		# limite l'accès à l'écran d'administration du plugin
         $this->setAdminProfil(PROFIL_ADMIN);
-        $this->setAdminMenu( ''. $this->getLang("L_PLUGINS_HELP") .' '. $this->getLang("L_MENU_CATEGORIES").''  , 7,  ''.$this->getLang("L_PLUGINS_HELP_TITLE").'');	
+        //$this->setAdminMenu( ''. $this->getLang("L_PLUGINS_HELP") .' '. $this->getLang("L_MENU_CATEGORIES").''  , 7,  ''.$this->getLang("L_PLUGINS_HELP_TITLE").'');	
 	}
 	
 		
@@ -58,7 +59,6 @@ class categories extends plxPlugin {
 		echo self::BEGIN_CODE;
 ?>
 			echo '	<link rel="stylesheet" href="'.PLX_ROOT.'plugins/categories/css/site.css" type="text/css" media="screen" />'.PHP_EOL;
-			//print_r($GLOBALS);
 <?php
 		echo self::END_CODE;	
 	}
@@ -70,22 +70,22 @@ class categories extends plxPlugin {
 	 * @remplace la fonction native qde pluxml
 	 * @author	gcyrillus
 	 **/
-	public function plxShowLastCatList($extra = '', $format = '',  $include = '', $exclude = '') {
+	public function plxShowLastCatList($extra = '', $format = '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother"><a href="#cat_url" title="#cat_name">#cat_name</a> <span> (#art_nb)</span></li>'.PHP_EOL,  $include = '', $exclude = '') {
 		
 		echo self::BEGIN_CODE;
 	?>
 
 		
 		#Initialisation de variables
-		$okay=false;	       // tant que l'on a pas trouvé de mother="1" 
-		$currentCats=array();  // pour ajouter une premiere clé si non initialisé
-		$keySearch = array();  // tableau de categorie rechercher
-		$mother_Set='000';     // tant que l'on a pas trouvé de categorie mother principale
-		$cat_to_set = array(); // stocke les catégorie a affiché
-		$cats_found = array(); // stocke toutes les catégories trouvées -- doublon ?
-		$cat_to_remove = array() ;// resultat cats to remove
-		$sister= array();            // stocke ajoute la catégorie au tableau des catégories a afficher
-		if ($format == '') $format = '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother"><a href="#cat_url" title="#cat_name">#cat_name</a> <span> (#art_nb)</span></li>'.PHP_EOL;	
+		$okay=false;	       		// tant que l'on a pas trouvé de mother="1" 
+		$currentCats=array();  		// pour ajouter une premiere clé si non initialisé
+		$keySearch = array();  		// tableau de categorie rechercher
+		$mother_Set='000';     		// tant que l'on a pas trouvé de categorie mother principale
+		$cat_to_set = array(); 		// stocke les catégorie a affiché
+		$cats_found = array(); 		// stocke toutes les catégories trouvées -- doublon ?
+		$cat_to_remove = array();	// resultat cats to remove
+		$sister= array();			// stocke/ajoute la catégorie au tableau des catégories a afficher
+	
 				
 		#on recherche le mode dans lequel nous sommes
 		if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== 'static') || ($this->plxMotor->mode === 'article' )  ) {
@@ -156,7 +156,6 @@ class categories extends plxPlugin {
 		if (class_exists('EBook')) { $modeFound =  $plxMotor->plxPlugins->aPlugins['EBook']->getParam('url');}// TODO : TEST loop sur plugins et hook plxShowStaticListEnd si injection dans le menu statique
 		#on regarde si on est en preview, si l'on a plus d'une categorie soeur et on alimente le tableau.
 		if((!isset($_GET['preview']))  && ($keySearchCount === 1 ) && ($this->plxMotor->mode !=='maxiContact' ) && ($this->plxMotor->mode !=='tags') && ($this->plxMotor->mode !==$modeFound )) {
-			#Recherche catégories filles si articles disponibles
 			 if ($this->plxMotor->aCats[$this->plxMotor->cible]['articles'] > 0) {
 				$sister= $this->plxMotor->aCats[ $keySearch[0]]['daughterOf'];				
 				$cat_to_set[]=$sister;
@@ -350,7 +349,7 @@ class categories extends plxPlugin {
 				$filter[]=$catNum;		
 						}
 		}
-        //var_dump($filter);
+
 		#on verifie que l'on a bien un filtre, sinon on sort:
 		if($filter !=='') {
 		
@@ -482,7 +481,7 @@ class categories extends plxPlugin {
 	}
 	
 	 /**
-	 * Méthode qui remplie dls valeur pour le select affichant les categories 'daughterOf', par défaut 'orpheline' à l'affichage
+	 * Méthode qui remplie les valeurs pour le select affichant les categories 'daughterOf', par défaut 'orpheline' à l'affichage
 	 *
 	 * @recuperation et ajout des valeurs des attributs mother et daughterOf.
 	 * @complement fonction native
@@ -558,4 +557,64 @@ class categories extends plxPlugin {
 <?php
 		echo self::END_CODE;
 	}
+	
+	
+	
+	
+public function plxShowStaticListEnd() {
+    # ajout au menu en tant que groupe
+    if($this->getParam('mnuDisplay')) {
+        echo '<?php' . PHP_EOL;
+?>
+ 		// parcours catégories , recherche statut mère/fille et création de tableau
+		foreach(array_keys($this->plxMotor->aCats) as $array_key) {
+			#on recherche si l'on a des categorie avec l'attribut mother a 1  et l'on crée une entrée
+			if ($this->plxMotor->aCats[$array_key]['mother'] =='1') {
+				$catGroup[$array_key][]=$this->plxMotor->aCats[$array_key]['name'];
+			  }
+			#on recherche si l'on a des categorie filles , on la class dans la clé de sa catégories mere.
+			if ($this->plxMotor->aCats[$array_key]['daughterOf'] !='000' && $this->plxMotor->aCats[$array_key]['active'] =='1') {
+				$catGroup[$this->plxMotor->aCats[$array_key]['daughterOf']][] = $array_key;
+			  }				
+		}
+
+		# Injection de code par le plugin  '<?= __CLASS__  ?>'	
+		 $catGroup_active = "";
+        if ($catGroup ) {
+            foreach ($catGroup  as $k => $v) {
+				$i='0';
+				if(count($v)>1) {
+					rsort($v);		
+					foreach ($v as $num => $name) {	
+						if( $i =='0') { $catGroupName = $name; }// nom de groupe/catégorie mère
+						if ( $i>0 && $this->plxMotor->aCats[$name]['active'] == 1 and $this->plxMotor->aCats[$name]['menu'] == 'oui') {
+							// on genere les liens à partir de $format	
+							$cat = str_replace('#static_id', 'categorie-' . intval($name), $format);
+							$cat = str_replace('#static_class', 'categorie menu', $cat);
+							$cat = str_replace('#static_url', $this->plxMotor->urlRewrite('?categorie' . intval($name) . '/' .$this->plxMotor->aCats[$name]['url']), $cat);
+							$cat = str_replace('#static_name', plxUtils::strCheck($this->plxMotor->aCats[$name]['name']), $cat);
+							$cat = str_replace('#static_status', ($this->catId() == $name ? 'active' : 'noactive'), $cat);
+							//ajout au groupe
+							$menus[$catGroupName][] = $cat;
+							}
+					$i++;				
+					}		
+				}           
+							
+        	}	
+		}
+				
+
+
+		
+<?php
+        echo PHP_EOL . '?>';
+    }
+
+
+}	
+	
+	
+	
+	
 }
