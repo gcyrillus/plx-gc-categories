@@ -18,7 +18,7 @@ class categories extends plxPlugin {
 		'plxAdminEditCategoriesUpdate',
 		'plxAdminEditCategoriesXml',
 		'plxAdminEditCategorie',
-	    'AdminCategoryTop',
+	        'AdminCategoryTop',
 		'AdminCategoriesTop',
 		'AdminCategory',
 		'AdminCategoriesPrepend',
@@ -44,7 +44,6 @@ class categories extends plxPlugin {
 		
 		# limite l'accès à l'écran d'administration du plugin
         $this->setAdminProfil(PROFIL_ADMIN);
-        //$this->setAdminMenu( ''. $this->getLang("L_PLUGINS_HELP") .' '. $this->getLang("L_MENU_CATEGORIES").''  , 7,  ''.$this->getLang("L_PLUGINS_HELP_TITLE").'');	
 	}
 	
 		
@@ -58,7 +57,7 @@ class categories extends plxPlugin {
 	public function plxShowPluginsCss() {
 		echo self::BEGIN_CODE;
 ?>
-			echo '	<link rel="stylesheet" href="'.PLX_ROOT.'plugins/categories/css/site.css" type="text/css" media="screen" />'.PHP_EOL;
+			echo '	<link rel="stylesheet" href="'.PLX_ROOT.'plugins/categories/css/site.css?v=3.0" type="text/css" media="screen" />'.PHP_EOL;
 <?php
 		echo self::END_CODE;	
 	}
@@ -67,10 +66,10 @@ class categories extends plxPlugin {
 	/**
 	 * Méthode qui recherche si il y a une catégorie mére et tri les articles a afficher
 	 *
-	 * @remplace la fonction native qde pluxml
+	 * @remplace la fonction native de pluxml
 	 * @author	gcyrillus
 	 **/
-	public function plxShowLastCatList($extra = '', $format = '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother"><a href="#cat_url" title="#cat_name">#cat_name</a> <span> (#art_nb)</span></li>'.PHP_EOL,  $include = '', $exclude = '') {
+	public function plxShowLastCatList($extra = '', $format = '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter" ><a href="#cat_url" title="#cat_name">#cat_name</a> <span> (#art_nb)</span></li>'.PHP_EOL,  $include = '', $exclude = '') {
 		
 		echo self::BEGIN_CODE;
 	?>
@@ -84,7 +83,7 @@ class categories extends plxPlugin {
 		$cat_to_set = array(); 		// stocke les catégorie a affiché
 		$cats_found = array(); 		// stocke toutes les catégories trouvées -- doublon ?
 		$cat_to_remove = array();	// resultat cats to remove
-		$sister= array();			// stocke/ajoute la catégorie au tableau des catégories a afficher
+		$sister= array();		// stocke/ajoute la catégorie au tableau des catégories a afficher
 	
 				
 		#on recherche le mode dans lequel nous sommes
@@ -222,6 +221,7 @@ class categories extends plxPlugin {
 				'#cat_url' => $this->plxMotor->urlRewrite(),
 				'#cat_name' => plxUtils::strCheck($extra),
 				'#cat_mother' => plxUtils::strCheck($mother_Set),
+				'#data_daughter' => 'home',
 				'#cat_status' => ($this->catId() == 'home') ? 'active' : 'noactive',
 				'#art_nb' => '',
 			));
@@ -246,7 +246,8 @@ class categories extends plxPlugin {
 										$name = str_replace('#cat_id','cat-'.$idCatNum,$format);
 										$name = str_replace('#cat_url',$this->plxMotor->urlRewrite('?categorie'.$idCatNum.'/'.$v['url']),$name);
 										$name = str_replace('#cat_name',plxUtils::strCheck($v['name']),$name);
-										$name = str_replace('#cat_mother',plxUtils::strCheck($v['mother']),$name);										
+										$name = str_replace('#cat_mother',plxUtils::strCheck($v['mother'
+										$name = str_replace('#data_daughter',plxUtils::strCheck($v['daughterOf']),$name);]),$name);										
 										$name = str_replace('#cat_status',($this->catId()==$idCatStr ? 'active':'noactive'), $name);
 										$name = str_replace('#cat_description',plxUtils::strCheck($v['description']),$name);
 										$name = str_replace('#art_nb',$v['articles'],$name);
@@ -260,6 +261,7 @@ class categories extends plxPlugin {
 										'#cat_url' => $this->plxMotor->urlRewrite('?categorie' . $idCatNum . '/' . $v['url']),
 										'#cat_name' => plxUtils::strCheck($v['name']),
 										'#cat_mother' => plxUtils::strCheck($v['mother']),
+										'#data_daughter' => plxUtils::strCheck($v['daughterOf']),
 										'#cat_status' => !empty($currentCats) && in_array($idCatStr, $currentCats) ? 'active' : 'noactive',
 										'#cat_description' => plxUtils::strCheck($v['description']),
 										'#art_nb' => $v['articles'],
