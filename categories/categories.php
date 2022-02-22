@@ -246,8 +246,8 @@ class categories extends plxPlugin {
 										$name = str_replace('#cat_id','cat-'.$idCatNum,$format);
 										$name = str_replace('#cat_url',$this->plxMotor->urlRewrite('?categorie'.$idCatNum.'/'.$v['url']),$name);
 										$name = str_replace('#cat_name',plxUtils::strCheck($v['name']),$name);
-										$name = str_replace('#cat_mother',plxUtils::strCheck($v['mother'
-										$name = str_replace('#data_daughter',plxUtils::strCheck($v['daughterOf']),$name);]),$name);										
+										$name = str_replace('#cat_mother',plxUtils::strCheck($v['mother']),$name);
+										$name = str_replace('#data_daughter',plxUtils::strCheck($v['daughterOf']),$name);										
 										$name = str_replace('#cat_status',($this->catId()==$idCatStr ? 'active':'noactive'), $name);
 										$name = str_replace('#cat_description',plxUtils::strCheck($v['description']),$name);
 										$name = str_replace('#art_nb',$v['articles'],$name);
