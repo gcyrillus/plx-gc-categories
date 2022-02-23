@@ -84,6 +84,8 @@ class categories extends plxPlugin {
 		$cats_found = array(); 		// stocke toutes les catégories trouvées -- doublon ?
 		$cat_to_remove = array();	// resultat cats to remove
 		$sister= array();		// stocke/ajoute la catégorie au tableau des catégories a afficher
+		# MAJ du format par défaut de PluXml 
+		if ($format =='<li id="#cat_id" class="#cat_status"><a href="#cat_url" title="#cat_name">#cat_name</a></li>') {$format= '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter"><a href="#cat_url" title="#cat_name">#cat_name</a> <span> (#art_nb)</span></li>';}
 	
 				
 		#on recherche le mode dans lequel nous sommes
