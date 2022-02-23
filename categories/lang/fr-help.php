@@ -54,11 +54,12 @@
 &lt;/ul></code></pre>
 	<p>Le format par défaut sera remplacer par celui du plugin et un attribut <code>data-mother</code> est générer recevant la valeur "0" ou "1".</p>
 <p> Le nouveau format par défaut, générer par le plugin, équivaut à l’écrire comme ceci :</p> <pre><code>&lt;ul class="cat-list">
-	&lt;?php $plxShow->catList('','&lt;li id="#cat_id" class="#cat_status" data-mother="#cat_mother">&lt;a href="#cat_url" title="#cat_name">#cat_name&lt;/a> &lt;span> (#art_nb)&lt;/span>&lt;/li>'); ?>
+	&lt;?php $plxShow->catList('','&lt;li id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter">&lt;a href="#cat_url" title="#cat_name">#cat_name&lt;/a> &lt;span> (#art_nb)&lt;/span>&lt;/li>'); ?>
 &lt;/ul></code></pre>
-	<p>Cela vous donne deux sélecteurs utilisables dans la feuille de style, la difference est l'attribut <code>data-mother</code> inserer dans le format d'origine.Le plugin ajoute aussi une feuille de style a votre thème avec le code suivant :</p><pre><code>[data-mother="1"] {font-weight:bold;max-width:max-content;margin:0.25ch 0;}
+	<p>Cela vous donne deux sélecteurs utilisables dans la feuille de style, la difference est l'attribut <code>data-mother</code> inserer dans le format d'origine avec comme valeur <code>0 ou 1</code>, l'attribut <code>data-daughter</code> quant à lui, reçoit le numero de sa catégorie <code>mère</code> ou <code>000</code>.Le plugin ajoute aussi une feuille de style a votre thème avec les codes suivant :</p><pre><code>[data-mother="1"],[data-mother="0"][data-daughter="000"]{ font-weight:bold; max-width:max-content; margin:0.25ch 0;}
+[data-mother="0"][data-daughter="000"]{  margin-block:1em;}
 [data-mother="0"] {margin:0 0 2px 2ch;max-width:max-content;}
-.menu.breadcrumb.repertory a {width:auto; /* reset de themes.css ligne 139 */}</code>
+.menu.breadcrumb.repertory a {width:auto;}</code>
 </pre><p>Ces styles sont eux aussi modifiable dans l'administration.
 </p>
 <p>Si le nouveau format par défaut ne vous convient pas, vous pouvez le réécrire en modifiant sa structure , ajouter un attribut ou y insérer les class que votre thème utilise.<br>Par exemple: pour retirer l'affichage du nombre d'article il suffit d'enlever le <code>span</code> avec son contenu, <code>#art_nb</code> servant lui à afficher nativement le nombre d'article. Les codes précédés d'un <b>#</b> ne doivent pas être modifiés. <code>#cat_url</code> genere le lien de catégorie et <code>#cat_name</code> le nom, ces deux là sont essentiels pour créer votre lien.</p>
@@ -66,7 +67,7 @@
     exemple, sans l'inserer dans une liste mais dans un element de navigation:
 </p>
 <pre><code>&lt;nav class="nav-cat-links">
-	&lt;?php $plxShow->catList('','&lt;a href="#cat_url"  id="#cat_id" class="#cat_status" data-mother="#cat_mother" title="#cat_name">#cat_name&lt;/a>'); ?> 
+	&lt;?php $plxShow->catList('','&lt;a href="#cat_url"  id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter" title="#cat_name">#cat_name&lt;/a>'); ?> 
 &lt;/nav></code></pre>
 
 <h2>Utilisation et mise en place des catégories principales</h2>
@@ -77,6 +78,7 @@
 <p>Chaques catégories fille(s) , dans l'administration, prendront une couleur de fond identique à celle de leur  catégorie <b>mére</b>.</p>
 <img src="/plugins/categories/img/edit-cat.jpg" alt="aperçu edition catégorie">
 <p>Dans la partie édition ou création d'article, seules les catégories filles seront listées avec la couleur de fond correspondant à leur catégorie mère.</p>
+<p><strong>Note :</strong> Si l'un de vos articles est attribué a une catégorie mère , lors de sa prochaine édition, il ne sera plus relié directement à une catégorie mère, il faudra lui attribué une catégorie fille pour le reclassé dans une catégorie. Les catégories <code>mères</code> n'ont pour usages que de regroupées d'autre catégories et ne sont pas destinées a y ranger des articles.</p>
 
 <img src="/plugins/categories/img/edit-art.jpg" alt="aperçu edition article">
 <h2>Pages sans tris</h2>

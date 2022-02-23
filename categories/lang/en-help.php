@@ -53,11 +53,12 @@
 &lt;/ul></code></pre>
 	<p>The default format will be replaced and an attribute <code>data-mother</code> will be added, its value will be either "0" or "1".</p>
 <p>The format used will be the same as if you wrote :</p> <pre><code>&lt;ul class="cat-list">
-	&lt;?php $plxShow->catList('','&lt;li id="#cat_id" class="#cat_status" data-mother="#cat_mother">&lt;a href="#cat_url" title="#cat_name">#cat_name&lt;/a> &lt;span> (#art_nb)&lt;/span>&lt;/li>'); ?>
+	&lt;?php $plxShow->catList('','&lt;li id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter">&lt;a href="#cat_url" title="#cat_name">#cat_name&lt;/a> &lt;span> (#art_nb)&lt;/span>&lt;/li>'); ?>
 &lt;/ul></code></pre>
-	<p>It gives you two extra selectors you can use from your style sheets, this extra attribute: <code>data-mother</code> can only have 2 values.The plugin also adds a style sheet to your theme with the following code :</p><pre><code>[data-mother="1"] {font-weight:bold;max-width:max-content;margin:0.25ch 0;}
+	<p>It gives you two extra selectors you can use from your style sheets, this extra attribute: <code>data-mother</code> can only have 2 values :<code>0 or 1</code>.The attribute <code>data_daughter</code> will either receive the number of its mother categorie or <code>000</code>.The plugin also adds a style sheet to your theme with the following code :</p><pre><code>[data-mother="1"],[data-mother="0"][data-daughter="000"]{ font-weight:bold; max-width:max-content; margin:0.25ch 0;}
+[data-mother="0"][data-daughter="000"]{  margin-block:1em;}
 [data-mother="0"] {margin:0 0 2px 2ch;max-width:max-content;}
-.menu.breadcrumb.repertory a {width:auto; /* reset de themes.css ligne 139 */}</code>
+.menu.breadcrumb.repertory a {width:auto;}</code>
 </pre><p>Those styles can also be edited in the administration from the plugins pages, clicking on the link CSS.
 </p>
 <p>If that new format doesn't suit your needs, you can rewrite it from the function , add an attribute or insert the class your theme already uses.<br>Example: to remove the number of articles related to the categorie, you can erase the <code>span</code> and its content, <code>#art_nb</code> is used to show the number of artical. Codes prefixed with an <b>#</b> should not be modified. <code>#cat_url</code> generates the link to the categorie and <code>#cat_name</code> the name of the categorie, These two are essential to creat a link to a categorie .</p>
@@ -65,18 +66,18 @@
     Modification example: generates links with class and attributes inside a nav element.
 </p>
 <pre><code>&lt;nav class="nav-cat-links">
-	&lt;?php $plxShow->catList('','&lt;a href="#cat_url"  id="#cat_id" class="#cat_status" data-mother="#cat_mother" title="#cat_name">#cat_name&lt;/a>'); ?> 
+	&lt;?php $plxShow->catList('','&lt;a href="#cat_url"  id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter" title="#cat_name">#cat_name&lt;/a>'); ?> 
 &lt;/nav></code></pre>
 
 <h2>Use and setup for the main(mothers) catégories</h2>
 <p>Once the plugin installed and activated, you have not yet any mother categories. It's time to set or create them , then set the daughter categories .</p>
-<ol class="mw70rem"><li>Create a new categorie and select   <b>yes</b> for the choice of mother column <b>mère</b>. validate the modification.</li>
+<ol class="mw70rem"><li>Create a new categorie and select   <b>yes</b> for the choice of mother column <b>mother</b>. validate the modification.</li>
 <li>Your mother catégorie has now a background color to easily notice it in the administration.</li>
 <li>You can now select daughter catégories, inside the <b>daughter</b> column , select one of the mother categories avalaible . "orphan" means that it is not related to any mother categorie.Save your modifications.</li>
 <p>Each daughter categories , will have a background partially painted of the same color of the mother categorie it is related to.</p>
 <img src="/plugins/categories/img/edit-cat.jpg" alt="aperçu edition catégorie">
 <p>While creating or editing an article, daughter categories  backgrounds will also be painted from the mother's background color to easily sort and select the category the article is related to.</p>
-
+<p><strong>Note:</strong> When you set a categorie as <code>mother</code>, it will not be avalaible on while editing, creating an article. If there is articles already linked to that categorie, once edited , those articles will no longer be related to it. You have to choose a <code>daughter</code> categorie. <code>mother</code> categorie are used to group <code>daughter</code> categories only.</p>
 <img src="/plugins/categories/img/edit-art.jpg" alt="aperçu edition article">
 <h2>Pages where categories are not filtered</h2>
 <p>Any pages which is not an article or  a categorie front page  will show in the side bar all categories or content from any categories. Thoses pages are  archives, keywords, static pages , preview (while editing an article) or any page generated by a plugin (alike plxMySearch). </p>
