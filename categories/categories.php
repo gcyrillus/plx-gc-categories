@@ -9,6 +9,7 @@ class categories extends plxPlugin {
 	public $okay =false;	
 
 	const HOOKS = array(
+		/*'plxShowPluginsCss',*/ // à decommenter au besoin ! style compatible avec les attributs[data-mother et data-daughter.
 		'plxShowLastCatList',
 		'plxShowLastArtList',
 		'plxShowTagList',
@@ -18,7 +19,7 @@ class categories extends plxPlugin {
 		'plxAdminEditCategoriesUpdate',
 		'plxAdminEditCategoriesXml',
 		'plxAdminEditCategorie',
-	        'AdminCategoryTop',
+	    'AdminCategoryTop',
 		'AdminCategoriesTop',
 		'AdminCategory',
 		'AdminCategoriesPrepend',
@@ -49,8 +50,8 @@ class categories extends plxPlugin {
 		
 	
 	/**
-	 * Méthode qui ajoute le fichier site.css au théme 
-	 *
+	 * Méthode qui ajoute le fichier site.css au théme  si ne fonctionne pas avec votre configuration
+	 * Pour l'activer, décommenter le hook /*plxShowPluginsCss,*/ //=> ligne 12 
 	 * @complete la fonction native qui va le chercher ailleurs
 	 * @author	gcyrillus
 	 **/	
@@ -83,9 +84,9 @@ class categories extends plxPlugin {
 		$cat_to_set = array(); 		// stocke les catégorie a affiché
 		$cats_found = array(); 		// stocke toutes les catégories trouvées -- doublon ?
 		$cat_to_remove = array();	// resultat cats to remove
-		$sister= array();		// stocke/ajoute la catégorie au tableau des catégories a afficher
-		# MAJ du format par défaut de PluXml 
-		if ($format =='<li id="#cat_id" class="#cat_status"><a href="#cat_url" title="#cat_name">#cat_name</a></li>') {$format= '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter"><a href="#cat_url" title="#cat_name">#cat_name</a> <span> (#art_nb)</span></li>';}
+		$sister= array();			// stocke/ajoute la catégorie au tableau des catégories a afficher
+									# MAJ du format par défaut de PluXml 
+		if ($format =='<li id="#cat_id"><a class="#cat_status" href="#cat_url" title="#cat_name">#cat_name</a> (#art_nb)</li>') {$format= '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter"><a href="#cat_url" title="#cat_name">#cat_name</a> <span> (#art_nb)</span></li>';}
 	
 				
 		#on recherche le mode dans lequel nous sommes
