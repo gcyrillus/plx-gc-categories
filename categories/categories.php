@@ -51,7 +51,7 @@ class categories extends plxPlugin {
 	
 	/**
 	 * Méthode qui ajoute le fichier site.css au théme  si ne fonctionne pas avec votre configuration
-	 * Pour l'activer, décommenter le hook /*plxShowPluginsCss,*/ //=> ligne 12 
+	 * Pour l'activer, décommenter le hook  plxShowPluginsCss ligne 12
 	 * @complete la fonction native qui va le chercher ailleurs
 	 * @author	gcyrillus
 	 **/	
