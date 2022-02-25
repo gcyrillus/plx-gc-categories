@@ -153,19 +153,23 @@ class categories extends plxPlugin {
 		}
 
 		#on recherche le mode dans lequel nous sommes
-		$modeFound='tags';// valeur par défaut 
-		$plxMotor = plxMotor::getInstance();
-		if (class_exists('EBook')) { $modeFound =  $plxMotor->plxPlugins->aPlugins['EBook']->getParam('url');}// TODO : TEST loop sur plugins et hook plxShowStaticListEnd si injection dans le menu statique
-		#on regarde si on est en preview, si l'on a plus d'une categorie soeur et on alimente le tableau.
-		if((!isset($_GET['preview']))  && ($keySearchCount === 1 ) && ($this->plxMotor->mode !=='maxiContact' ) && ($this->plxMotor->mode !=='tags') && ($this->plxMotor->mode !==$modeFound )) {
+		$modeFound='tags';// valeur par défaut arbitraire
+		if($this->plxMotor->mode =='home') {$modeFound='home';}//test optionnel
+		
+		#on recherche si c'est un mode géneré par un plugin
+		foreach($this->plxMotor->plxPlugins->aPlugins as $plugtofind => $arr){			
+			if($this->plxMotor->plxPlugins->aPlugins[$plugtofind]->getParam('url') != null && $this->plxMotor->mode == $this->plxMotor->plxPlugins->aPlugins[$plugtofind]->getParam('url') ) {$modeFound = $this->plxMotor->plxPlugins->aPlugins[$plugtofind]->getParam('url');}
+			if( $this->plxMotor->mode == $plugtofind ) {$modeFound = $plugtofind;}			
+		}
+		
+		#on verifie que : ce n'est pas un mode preview ou celui d'un plugin et qu'il ya des catégories soeurs , si conditions validées on peut alimenter le tableau $cat_to_set[]
+		if((!isset($_GET['preview']))  && ($keySearchCount === 1 )  && ($this->plxMotor->mode !==$modeFound )) {
 			 if ($this->plxMotor->aCats[$this->plxMotor->cible]['articles'] > 0) {
 				$sister= $this->plxMotor->aCats[ $keySearch[0]]['daughterOf'];				
 				$cat_to_set[]=$sister;
 			 }
 		} else {
 				$keySearch[]=$mother_Set;
-				
-
 		}
 
 		#boucle sur les catégories
