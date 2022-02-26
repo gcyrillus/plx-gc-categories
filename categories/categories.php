@@ -80,7 +80,7 @@ class categories extends plxPlugin {
 		$okay=false;	       		// tant que l'on a pas trouvé de mother="1" 
 		$currentCats=array();  		// pour ajouter une premiere clé si non initialisé
 		$keySearch = array();  		// tableau de categorie rechercher
-		$mother_Set='000';     		// tant que l'on a pas trouvé de categorie mother principale
+		$mother_Set='';     		// tant que l'on a pas trouvé de categorie mother principale
 		$cat_to_set = array(); 		// stocke les catégorie a affiché
 		$cats_found = array(); 		// stocke toutes les catégories trouvées -- doublon ?
 		$cat_to_remove = array();	// resultat cats to remove
