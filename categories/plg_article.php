@@ -21,6 +21,9 @@ if(!empty($_POST)) { # Création, mise à jour, suppression ou aperçu
 					echo '<br>'.$v .' - '.$doublon;
 					if ($doublon !== $plxAdmin->aCats[$v]['daughterOf']) {
 						$doublon=$plxAdmin->aCats[$v]['daughterOf'];
+						if(isset($plxAdmin->aCats[$plxAdmin->aCats[$v]['daughterOf']]['daughterOf']) && $plxAdmin->aCats[$plxAdmin->aCats[$v]['daughterOf']]['daughterOf'] !=='000') {
+							array_push($_POST['catId'],$plxAdmin->aCats[$plxAdmin->aCats[$v]['daughterOf']]['daughterOf']);
+						}
 						array_push($_POST['catId'],$doublon);
 						
 					}
@@ -476,6 +479,8 @@ function refreshImg(dta) {
 							foreach($plxAdmin->aCats as $cat_id => $cat_name) {
 								if ( $plxAdmin->aCats[$cat_id]['mother'] !=='1') {
 									$catMother=$plxAdmin->aCats[$cat_id]['daughterOf'] ;
+									if(isset($plxAdmin->aCats[$plxAdmin->aCats[$cat_id]['daughterOf']]['daughterOf']) && $plxAdmin->aCats[$plxAdmin->aCats[$cat_id]['daughterOf']]['daughterOf'] !=='000'){$catMother=$plxAdmin->aCats[$plxAdmin->aCats[$cat_id]['daughterOf']]['daughterOf'];}
+									
 									if (!isset($plxAdmin->aCats[$catMother]) or $catMother === '000') {
 										$catMotherName=' est  <b style="background-color:var(--mother_'.$catMother.');padding:0.15em 0.25em;border-radius:0.25em;">' . $plgPlugin->getLang('L_ORPHAN') . '</b>';
 									} else {

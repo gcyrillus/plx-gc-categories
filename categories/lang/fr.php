@@ -8,5 +8,6 @@ $LANG = array(
 	'L_PLUGINS_HELP_TITLE' => 'Voir l\'aide du plugin',
 	'L_MENU_CATEGORIES' => 'Catégories',
 	'L_MENU_DISPLAY'				=> 'Afficher au menu les catégories mère et en sous menus les catégories filles.',
+	'L_CAT_DISPLAY'				=> 'Afficher dans la sidebar les autres catégories.',
 );
 

@@ -74,7 +74,11 @@ include 'top.php';
 				foreach($plxAdmin->aCats as $k=>$v) { # Pour chaque catégorie
 					$data="cat";
 					if($v['mother']=="1"){ $data="mother";}
-					echo '<tr style="background:linear-gradient(90deg,transparent 6em,  var(--daughterOf_'.$v['daughterOf'].',rgba(0,0,0,0)) 6em, var(--daughterOf_'.$v['daughterOf'].', rgba(0,0,0,0) ))  var(--'.$data.'_'.$k.',rgba(0,0,0,0)) ;">';
+					if($v['daughterOf'] !=='000'){
+						if($plxAdmin->aCats[$v['daughterOf']]['mother'] =="1" ){ $daughterOf=$v['daughterOf'];}
+						if(isset($plxAdmin->aCats[$plxAdmin->aCats[$v['daughterOf']]['daughterOf']])) { $daughterOf= $plxAdmin->aCats[$v['daughterOf']]['daughterOf'];}
+					} else {$daughterOf='000';}
+					echo '<tr style="background:linear-gradient(90deg,transparent 6em,  var(--daughterOf_'.$daughterOf.',rgba(0,0,0,0)) 6em, var(--daughterOf_'.$daughterOf.', rgba(0,0,0,0) ))  var(--'.$data.'_'.$k.',rgba(0,0,0,0)) ;">';
 					echo '<td><input type="checkbox" name="idCategory[]" value="'.$k.'" /><input type="hidden" name="catNum[]" value="'.$k.'" /></td>';
 					echo '<td>'.$k.'</td><td>';
 					plxUtils::printInput($k.'_name', plxUtils::strCheck($v['name']), 'text', '-50');
