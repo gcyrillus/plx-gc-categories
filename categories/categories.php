@@ -112,7 +112,6 @@ class categories extends plxPlugin {
 				$catMothers[]=$catKey;
 				$lastMother = $catKey;
 			}
-			//if($this->plxMotor->aCats[$catKey]['daughterOf'] !=='000'  &&  $this->plxMotor->aCats[$this->plxMotor->cible]['articles'] !== 0 ){			
 			if($this->plxMotor->aCats[$catKey]['daughterOf'] !=='000'  &&  $this->plxMotor->aCats[$catKey]['articles'] !== 0 ){
 				$catdaughters[]=$catKey;
 				
@@ -252,13 +251,9 @@ class categories extends plxPlugin {
 						&& $this->plxMotor->mode !=='home'  
 						&& $this->plxMotor->mode !=='archives'  
 						&& $this->plxMotor->mode !=='static' 
-						&& $this->plxMotor->mode !== $modeFound
-						
-						&& isset($currentCats[0])  
+						&& $this->plxMotor->mode !== $modeFound	
 						&& $this->plxMotor->aCats[$currentCats[0]]['daughterOf'] !='000' 						
 						&& isset($this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]) 
-						
-						
 						&&       $this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]['mother'] =='0'
 						){							
 								$cat_to_set[] = $this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]['daughterOf']; 								
