@@ -612,7 +612,16 @@ class categories extends plxPlugin {
 			font-size:0.8em;
 			color:#333;
 			font-weight:normal;
-		}</style>';			
+		}</style>
+		 <script>(function () {
+			  window.onload =  function(){ 
+				for (let e of document.querySelectorAll(\''. implode(',',$cssSelector) .'\')) {
+					 var text= e.textContent;
+					  e.textContent = " - "+ text;
+					}
+			  }
+		})();
+		 </script>';			
 		}
 		
 <?php
@@ -706,9 +715,10 @@ public function plxShowStaticListEnd() {
 		}
 
 
-
+		// si affichage catégorie seulement, on réinitialise le tableau $menu
 		if (stristr($format, '#no_static')){
 			$menus=array();
+			// on retire le mot clé maintenant qu'il a fait son office
 			$format = str_replace('#no_static','',$format);	
 		}
 
