@@ -741,8 +741,7 @@ public function plxShowStaticListEnd() {
 							$cat = str_replace('#static_status', ($this->catId() == $name ? 'active' : 'noactive'), $cat);
 							//ajout au groupe
 							$menus[$catGroupName][] = $cat;
-							}
-					$i++;				
+							}			
 					}		
 				}           
 							
