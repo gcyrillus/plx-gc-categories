@@ -23,3 +23,26 @@ ul.cat-list{
   opacity:1;
   transition:0.5s;
 }*/
+
+
+.menu.cat-list  li {
+  display:block;
+  margin:0
+}
+.menu.cat-list > li span::before {
+  content: "\25bc";
+  padding-right: 0.5rem;
+  display:inline-block;
+  transform: rotate(-90deg);
+  vertical-align: top;
+  line-height:  1.2;
+  color:orange ;
+  transition:0.25s transform
+}
+.menu.cat-list > li:hover span::before {
+  transform: rotate(0deg);  
+  line-height:1.6
+}
+.menu.cat-list ul {
+  position:static;
+}
