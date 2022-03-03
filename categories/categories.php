@@ -112,12 +112,13 @@ class categories extends plxPlugin {
 				$catMothers[]=$catKey;
 				$lastMother = $catKey;
 			}
-			if($this->plxMotor->aCats[$catKey]['daughterOf'] !=='000'  && $this->plxMotor->aCats[$this->plxMotor->cible]['articles'] !== 0 ){
+			//if($this->plxMotor->aCats[$catKey]['daughterOf'] !=='000'  &&  $this->plxMotor->aCats[$this->plxMotor->cible]['articles'] !== 0 ){			
+			if($this->plxMotor->aCats[$catKey]['daughterOf'] !=='000'  &&  $this->plxMotor->aCats[$catKey]['articles'] !== 0 ){
 				$catdaughters[]=$catKey;
 				
 				# test si 3eme niveau
 				if($this->plxMotor->aCats[$this->plxMotor->aCats[$catKey]['daughterOf']]['mother'] !=='1' ) {
-					if($this->plxMotor->mode !=='home' && !isset($_GET['preview']) && $this->plxMotor->mode !=='static' && $this->plxMotor->mode !==$modeFound ){
+					if($this->plxMotor->mode !=='home' && !isset($_GET['preview']) && $this->plxMotor->mode !=='static' && $this->plxMotor->mode !==$modeFound && isset($this->catId(true)[0]) ){
 						$checkmother[]=$this->plxMotor->aCats[$this->catId(true)[0]]['daughterOf'];
 						if(isset($this->plxMotor->aCats[$this->plxMotor->aCats[$this->catId(true)[0]]['daughterOf']]['daughterOf']) &&$this->plxMotor->aCats[$this->plxMotor->aCats[$this->catId(true)[0]]['daughterOf']]['daughterOf'] == $this->plxMotor->aCats[$this->plxMotor->aCats[$catKey]['daughterOf']]['daughterOf'] && $this->plxMotor->aCats[$this->plxMotor->aCats[$this->catId(true)[0]]['daughterOf']]['daughterOf'] === $lastMother ||$this->plxMotor->aCats[$this->catId(true)[0]]['daughterOf'] == $this->plxMotor->aCats[$this->plxMotor->aCats[$catKey]['daughterOf']]['daughterOf']   ){
 							$cat_to_set[]=$catKey;	
@@ -242,12 +243,24 @@ class categories extends plxPlugin {
             
 
 			#recherche de valeur de clé correspondant a une valeur de $keySearch  pour alimenter la collection à l'affichage			
-			foreach($keySearch as $keytest => $ask ) {		
-				if(preg_match("/\b$ask\b/i", $this->plxMotor->aCats[$array_key]['daughterOf']) && $this->plxMotor->aCats[$this->plxMotor->cible]['articles'] !== 0 ){
+			foreach($keySearch as $keytest => $ask ) {				
+				if(preg_match("/\b$ask\b/i", $this->plxMotor->aCats[$array_key]['daughterOf']) && $this->plxMotor->aCats[$array_key]['articles'] !== 0 && isset($currentCats[0]) && $currentCats[0] !=''){					
 						$cat_to_set[]=$array_key;
-
 						#recherche categorie fille non reliée à une catégorie mére
-						if(!isset($_GET['preview']) && ($this->plxMotor->mode !=='home') && isset($currentCats[0])  && $this->plxMotor->aCats[$currentCats[0]]['daughterOf'] !='000' && $this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]['mother'] =='0' && ($this->plxMotor->mode !='archives')  && ($this->plxMotor->mode !=='static')&&  ($this->plxMotor->mode !== $modeFound )){							
+						if(
+						!isset($_GET['preview']) 
+						&& $this->plxMotor->mode !=='home'  
+						&& $this->plxMotor->mode !=='archives'  
+						&& $this->plxMotor->mode !=='static' 
+						&& $this->plxMotor->mode !== $modeFound
+						
+						&& isset($currentCats[0])  
+						&& $this->plxMotor->aCats[$currentCats[0]]['daughterOf'] !='000' 						
+						&& isset($this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]) 
+						
+						
+						&&       $this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]['mother'] =='0'
+						){							
 								$cat_to_set[] = $this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]['daughterOf']; 								
 						}			
 	
@@ -256,8 +269,9 @@ class categories extends plxPlugin {
 				}
 			}#fin ajout clé
 		} #fin de boucle sur les catégories actives
-		
-		if(($this->plxMotor->mode ==='archives') || ($this->plxMotor->mode ==='search') || '<?= $this->getParam('catDisplay') ?>' =="1" || $this->plxMotor->aCats[$this->plxMotor->cible]['articles'] === 0  )$okay=false;
+					 
+		if(!isset($this->plxMotor->aCats[$this->catId(true)[0]]) && $this->plxMotor->mode !=='categorie' ){$catfilter=0;}else{$catfilter=$this->plxMotor->aCats[$this->catId(true)[0]]['articles'];}
+		if(($this->plxMotor->mode ==='archives') || ($this->plxMotor->mode ==='search') || '<?= $this->getParam('catDisplay') ?>' =="1" || $catfilter === 0  )$okay=false;
 
 		#Si l'on a trouvé au moins une categorie mere ont fait le tri de l'affichage dans le menu catégorie.
 		if(($okay)&& ($this->plxMotor->mode !== 'static')) {
