@@ -1,6 +1,6 @@
 <?php
 if(!defined('PLX_ROOT')) {
-	die('Are you silly ?');
+	die('oups, says dev-3-niveaux');
 }
 
 class categories extends plxPlugin {
@@ -19,7 +19,7 @@ class categories extends plxPlugin {
 		'plxAdminEditCategoriesUpdate',
 		'plxAdminEditCategoriesXml',
 		'plxAdminEditCategorie',
-	    'AdminCategoryTop',
+	        'AdminCategoryTop',
 		'AdminCategoriesTop',
 		'AdminCategory',
 		'AdminCategoriesPrepend',
@@ -60,7 +60,7 @@ class categories extends plxPlugin {
 	public function plxShowPluginsCss() {
 		echo self::BEGIN_CODE;
 ?>
-			echo '	<link rel="stylesheet" href="'.PLX_ROOT.'plugins/categories/css/site.css?v=3.0.2" type="text/css" media="screen" />'.PHP_EOL;
+			echo '	<link rel="stylesheet" href="'.PLX_ROOT.'plugins/categories/css/site.css?v=3.0.3" type="text/css" media="screen" />'.PHP_EOL;
 <?php
 		echo self::END_CODE;	
 	}
@@ -244,7 +244,7 @@ class categories extends plxPlugin {
 
 			#recherche de valeur de clé correspondant a une valeur de $keySearch  pour alimenter la collection à l'affichage			
 			foreach($keySearch as $keytest => $ask ) {				
-				if(preg_match("/\b$ask\b/i", $this->plxMotor->aCats[$array_key]['daughterOf']) && $this->plxMotor->aCats[$array_key]['articles'] !== 0 && isset($currentCats[0]) && $currentCats[0] !=''){					
+				if(preg_match("/\b$ask\b/i", $this->plxMotor->aCats[$array_key]['daughterOf']) && isset($currentCats[0]) && $currentCats[0] !='' ){					
 						$cat_to_set[]=$array_key;
 						#recherche categorie fille non reliée à une catégorie mére
 						if(
@@ -252,16 +252,12 @@ class categories extends plxPlugin {
 						&& $this->plxMotor->mode !=='home'  
 						&& $this->plxMotor->mode !=='archives'  
 						&& $this->plxMotor->mode !=='static' 
-						&& $this->plxMotor->mode !== $modeFound
-						
-						&& isset($currentCats[0])  
+						&& $this->plxMotor->mode !== $modeFound		
 						&& $this->plxMotor->aCats[$currentCats[0]]['daughterOf'] !='000' 						
-						&& isset($this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]) 
-						
-						
+						&& isset($this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]) 						
 						&&       $this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]['mother'] =='0'
 						){							
-								$cat_to_set[] = $this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]['daughterOf']; 								
+							$cat_to_set[] = $this->plxMotor->aCats[$this->plxMotor->aCats[$currentCats[0]]['daughterOf']]['daughterOf']; 								
 						}			
 	
 				#on verifie si l'on veut generé un lien pour la catégorie mére pour le fil d'arianne.
@@ -297,7 +293,7 @@ class categories extends plxPlugin {
 	 
 		# Si on a la variable extra, on affiche un lien vers la page d'accueil (avec $extra comme nom)
 		if (!empty($extra)) {
-			//echo '<ul>';
+
 			echo strtr($format, array(
 				'#cat_id' => 'cat-home',
 				'#cat_url' => $this->plxMotor->urlRewrite(),
@@ -307,7 +303,7 @@ class categories extends plxPlugin {
 				'#cat_status' => ($this->catId() == 'home') ? 'active' : 'noactive',
 				'#art_nb' => '',
 			));
-			//echo '</ul>';
+
 		}
 
 		# On verifie qu'il y a des categories
@@ -591,7 +587,7 @@ class categories extends plxPlugin {
 		
 		echo self::BEGIN_CODE;
 ?>
-		#remplissage des select fille
+#remplissage des select fille
 		if($plxAdmin->aCats) {
 			$MotherArray['000']='orpheline';//defaut - home
 				foreach($plxAdmin->aCats as $key=>$value) {//boucle si il y a des catégories meres.
@@ -706,19 +702,16 @@ public function plxShowStaticListEnd() {
 				$catGroup[$this->plxMotor->aCats[$array_key]['daughterOf']][] = $array_key;
 			  }	
 
-			// test cat en 3eme niveau
 			if (isset($this->plxMotor->aCats[$this->plxMotor->aCats[$array_key]['daughterOf']]['daughterOf']) &&$this->plxMotor->aCats[$this->plxMotor->aCats[$array_key]['daughterOf']]['daughterOf'] !='000' && $this->plxMotor->aCats[$this->plxMotor->aCats[$array_key]['daughterOf']]['active'] =='1') {
-				// on ajoute un decallage visuel
-				$this->plxMotor->aCats[$array_key]['name'] = ' '.chr(032).' '.chr(032).' '.chr(032).' '.$this->plxMotor->aCats[$array_key]['name'];
+				$this->plxMotor->aCats[$array_key]['name'] = chr(032).' '.chr(032).' '.chr(055).' '.$this->plxMotor->aCats[$array_key]['name'];
 				$catGroup[$this->plxMotor->aCats[$this->plxMotor->aCats[$array_key]['daughterOf']]['daughterOf']][] = $array_key;
 			  }							  
 		}
 
 
-		// si affichage catégorie seulement, on réinitialise le tableau $menu
+
 		if (stristr($format, '#no_static')){
 			$menus=array();
-			// on retire le mot clé maintenant qu'il a fait son office
 			$format = str_replace('#no_static','',$format);	
 		}
 
@@ -727,9 +720,11 @@ public function plxShowStaticListEnd() {
 
 		 $catGroup_active = "";
         if ($catGroup ) {
+
             foreach ($catGroup  as $k => $v) {
 				$i='0';
-				if(count($v)>1) {	
+				if(count($v)>1) {
+					//usort($v);		
 					foreach ($v as $num => $name) {	
 						if( $i =='0') { $catGroupName = $name; }// nom de groupe/catégorie mère
 						if ( $i>0 && $this->plxMotor->aCats[$name]['active'] == 1 and $this->plxMotor->aCats[$name]['menu'] == 'oui') {
@@ -741,7 +736,8 @@ public function plxShowStaticListEnd() {
 							$cat = str_replace('#static_status', ($this->catId() == $name ? 'active' : 'noactive'), $cat);
 							//ajout au groupe
 							$menus[$catGroupName][] = $cat;
-							}			
+							}
+					$i++;				
 					}		
 				}           
 							
