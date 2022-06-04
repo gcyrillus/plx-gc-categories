@@ -4,7 +4,6 @@
 
 # plx-gc-categories
 
-Version Experimentale , peut-être instable
 
 [+] donne le choix de filtrer ou non les catégories dans la sidebar , par défaut le filtre est activé si la page en cours est réliées à une catégorie mére.
 
