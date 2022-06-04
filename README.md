@@ -16,3 +16,8 @@ Version Experimentale , peut-être instable
 Pour en faire usage: remplacer dans sidebar.php la fonction `<?php $plxShow->catList(); ?>` par `<?php  $plxShow->staticList('','<li class="#static_class #static_status" id="#static_id"><a href="#static_url" title="#static_name">#static_name</a>#no_static</li>'); ?>` ou le format que vous utilisez en y ajoutant la chaine `#no_static` .
 
 [+] javascript . ajout d'un tiret devant les catégories filles de premier niveau dans les select filles
+
+
+[+] breadcrumbs now can show the 3 levels
+[+] init var $cssSelector to avoid warnings
+[+] fr-help update 
