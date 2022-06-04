@@ -261,7 +261,16 @@ class categories extends plxPlugin {
 						}			
 	
 				#on verifie si l'on veut generé un lien pour la catégorie mére pour le fil d'arianne.
-				if (($include === '9999') && ($this->plxMotor->aCats[$array_key]['daughterOf'] !==$keySearch[0])) $include=$this->plxMotor->aCats[$array_key]['daughterOf'];
+				if (($include === '9999') && ($this->plxMotor->aCats[$array_key]['daughterOf'] !==$keySearch[0])) {					
+					if($this->plxMotor->aCats[$array_key]['daughterOf'] !=='000' && $array_key !== $this->plxMotor->cible )
+						{
+						 // ajoute un niveau au fil d'arianne si catégorie de 3eme niveau					
+							$include=$this->plxMotor->aCats[$this->plxMotor->cible]['daughterOf'];						
+							$include .=' | ' .$this->plxMotor->aCats[$array_key]['daughterOf'];								
+						}					
+					else{	$include=$this->plxMotor->aCats[$array_key]['daughterOf'];}
+					
+				}
 				}
 			}#fin ajout clé
 		} #fin de boucle sur les catégories actives
@@ -588,6 +597,7 @@ class categories extends plxPlugin {
 		echo self::BEGIN_CODE;
 ?>
 #remplissage des select fille
+		$cssSelector=array();
 		if($plxAdmin->aCats) {
 			$MotherArray['000']='orpheline';//defaut - home
 				foreach($plxAdmin->aCats as $key=>$value) {//boucle si il y a des catégories meres.

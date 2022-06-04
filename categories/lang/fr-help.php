@@ -77,6 +77,10 @@
 <li>Vous pouvez maintenant , dans la colonne <b>fille</b>, sélectionner  l'une des catégories mère précédemment enregistrée pour y rattacher une catégorie fille. "orpheline" indique qu'il s'agit d'une catégorie non rattachée à une autre catégorie.</li>
 <p>Chaques catégories fille(s) , dans l'administration, prendront une couleur de fond identique à celle de leur  catégorie <b>mére</b>.</p>
 <img src="/plugins/categories/img/edit-cat.jpg" alt="aperçu edition catégorie">
+  <p>Une catégorie peut-être rattachée à une catégorie mére, une catégorie fille de second niveau peut-être une catégorie mère secondaire, celles-ci  apparaissent dans la liste de choix précédée d'un tiret milieu dans une taille de police plus petite.</p>
+<img src="/plugins/categories/img/3-levels.jpg" alt="aperçu selection catégorie mére">
+
+<h2>relier un article à une catégorie</h2>
 <p>Dans la partie édition ou création d'article, seules les catégories filles seront listées avec la couleur de fond correspondant à leur catégorie mère.</p>
 <p><strong>Note :</strong> Si l'un de vos articles est attribué a une catégorie mère , lors de sa prochaine édition, il ne sera plus relié directement à une catégorie mère, il faudra lui attribué une catégorie fille pour le reclassé dans une catégorie. Les catégories <code>mères</code> n'ont pour usages que de regroupées d'autre catégories et ne sont pas destinées a y ranger des articles.</p>
 
