@@ -46,3 +46,11 @@ ul.cat-list{
 .menu.cat-list ul {
   position:static;
 }
+
+/* simulacre de menu déroulant dans la sidebar */
+.cat-list > [data-mother="1"]:first-child ~li {
+  display:none;
+}
+.cat-list:hover > [data-mother="1"]:first-child ~li {
+  display:list-item;
+}
