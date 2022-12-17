@@ -352,7 +352,7 @@ class categories extends plxPlugin {
 								
 								
 									# On modifie nos motifs
-									if($this->plxMotor->mode !== 'home' && $mothCount>0 && $loops !== count($this->plxMotor->aCats) && $v['mother'] =='1' && $include =='' ) {echo '</ul>' . PHP_EOL .'<ul  class="cat-list unstyled-list">';}
+									if($mothCount>0 && $loops !== count($this->plxMotor->aCats) && $v['mother'] =='1' && $include =='' ) {echo '</ul>' . PHP_EOL .'<ul  class="cat-list unstyled-list">';}
 									if($v['mother']=='1') {$mothCount++;}									
 									echo strtr($format, array(
 										'#cat_id' => 'cat-' . $idCatNum,
