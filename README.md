@@ -3,7 +3,7 @@
 
 
 # plx-gc-categories
-
+[+] Compatibilité pluxml 5.8.10
 
 [+] donne le choix de filtrer ou non les catégories dans la sidebar , par défaut le filtre est activé si la page en cours est réliées à une catégorie mére.
 
