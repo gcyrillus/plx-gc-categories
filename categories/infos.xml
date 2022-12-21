@@ -2,9 +2,14 @@
 <document>
    <title>Categories mére et filles</title>
    <author>GC-Nomade</author>
-   <version>3.2</version>
-   <date>1/06/2022</date>
+   <version>3.5.8.10</version>
+   <date>21/12/2022</date>
     <site>https://re7net.com</site>
     <repository>https://github.com/gcyrillus/plx-gc-categories</repository>
-   <description>Plugin permettant de déclarer des catégories mere et filles sur 3 niveaux et de cloissoner celles-ci au cours de la navigation sur le site en fonction de la catégorie mère principale si il y a plus d'une catégorie mère de premier niveau. Ne s'affiche alors que les catégories, derniers articles et tags reliés à la catégorie mère de premier niveau de la page en cours. Le fil d'arianne reproduit l'arborescence sur 3 niveaux.</description>
+   <description>Plugin permettant de déclarer des catégories mere et filles sur 3 niveaux et <br>
+      de cloissoner celles-ci au cours de la navigation sur le site en fonction de la catégorie mère principale <br>
+      si il y a plus d'une catégorie mère de premier niveau. <br>
+      Ne s'affiche alors que les catégories, derniers articles et tags reliés à la catégorie mère de premier niveau de la page en cours. <br>
+      Le fil d'arianne reproduit l'arborescence sur 3 niveaux.<br>
+      Compatibilité pluxml 5.8.10</description>
 </document>
