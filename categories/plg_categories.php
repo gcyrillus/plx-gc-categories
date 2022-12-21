@@ -72,6 +72,7 @@ include 'top.php';
 			# Si on a des catégories
 			if($plxAdmin->aCats) {
 				foreach($plxAdmin->aCats as $k=>$v) { # Pour chaque catégorie
+				//echo '<pre>';var_dump($v);echo'</pre>';
 					$data="cat";
 					if($v['mother']=="1"){ $data="mother";}
 					if($v['daughterOf'] !=='000'){

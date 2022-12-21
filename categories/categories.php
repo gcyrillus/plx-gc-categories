@@ -60,7 +60,7 @@ class categories extends plxPlugin {
 	public function plxShowPluginsCss() {
 		echo self::BEGIN_CODE;
 ?>
-			echo '	<link rel="stylesheet" href="'.PLX_ROOT.'plugins/categories/css/site.css?v=3.0.3" type="text/css" media="screen" />'.PHP_EOL;
+			echo '	<link rel="stylesheet" href="'.PLX_ROOT.'plugins/categories/css/site.css?v=3.1.5" type="text/css" media="screen" />'.PHP_EOL;
 <?php
 		echo self::END_CODE;	
 	}
@@ -91,7 +91,8 @@ class categories extends plxPlugin {
 		$cat_to_remove = array();	// resultat cats to remove
 		$sister= array();			// stocke/ajoute la catégorie au tableau des catégories a afficher
 
-		if ($format =='<li id="#cat_id" class="#cat_status"><a href="#cat_url" title="#cat_name">#cat_name</a></li>') {$format= '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter"><a href="#cat_url" title="#cat_name">#cat_name</a> </li>'.PHP_EOL;}
+		if ($format =='<li id="#cat_id"><a class="#cat_status" href="#cat_url" title="#cat_name">#cat_name</a></li>') {$format= '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter"><a href="#cat_url" title="#cat_name">#cat_name</a> </li>'.PHP_EOL;}
+		if($format == '<li id="#cat_id"><a class="#cat_status" href="#cat_url" title="#cat_name">#cat_name</a> (#art_nb)</li>'){$format= '<li id="#cat_id" class="#cat_status" data-mother="#cat_mother" data-daughter="#data_daughter"><a href="#cat_url" title="#cat_name">#cat_name</a> (#art_nb)</li>'.PHP_EOL;}
 		$json_str =stripslashes('<?= $AllMyCats ?>');
 		$AllOMyCats = json_decode($json_str, TRUE);
 		
@@ -134,9 +135,6 @@ class categories extends plxPlugin {
 				}
 			}
 		}
-		
-
-		
 				
 		#on recherche le mode dans lequel nous sommes
 		if (($this->plxMotor->aCats) && ($this->plxMotor->mode !== 'static') || ($this->plxMotor->mode === 'article' )  ) {
@@ -209,8 +207,6 @@ class categories extends plxPlugin {
 					array_push($cat_to_set, $this->plxMotor->aCats[ $keySearch[0]]['daughterOf']);
 
 				}
-					
-					
 
 				}
 			
@@ -279,7 +275,7 @@ class categories extends plxPlugin {
 		if(($this->plxMotor->mode ==='archives') || ($this->plxMotor->mode ==='search') || '<?= $this->getParam('catDisplay') ?>' =="1" || $catfilter === 0  )$okay=false;
 
 		#Si l'on a trouvé au moins une categorie mere ont fait le tri de l'affichage dans le menu catégorie.
-		if(($okay)&& ($this->plxMotor->mode !== 'static')) {
+		if(($okay)&& ($this->plxMotor->mode !== 'static')  ) {
 
 			$cat_to_remove = array_diff( $cats_found , $cat_to_set);
 			foreach($cat_to_remove as $unset) {
@@ -332,7 +328,7 @@ class categories extends plxPlugin {
 								# on a des articles pour cette catégorie ou on affiche les catégories sans article
 								
 								#experimental - test brut avec 3eme niveau
-								if($v['daughterOf'] !=='000' && $AllOMyCats[$v['daughterOf']]['mother'] !="1" ) {$myCatName = '&nbsp;&nbsp;'. plxUtils::strCheck($v['name']);}
+								if($v['daughterOf'] !=='000' && $AllOMyCats[$v['daughterOf']]['mother'] !="1" ) {$myCatName = '&nbsp;'. plxUtils::strCheck($v['name']);}
 								else{
 									$myCatName = plxUtils::strCheck($v['name']);
 								}
@@ -411,19 +407,17 @@ class categories extends plxPlugin {
 
 		$currentCats = array_diff($currentCats, ['home'] );							
 		$catIdCount = count(array_column($currentCats, null));
-		if (($catIdCount === 1 ) && ($this->plxMotor->aCats[ $currentCats[0]]['mother'] !=="1" )){
-			$cat_id .= $this->plxMotor->aCats[ $currentCats[0]]['daughterOf'];
-			} else {
-			foreach($currentCats as $art_cat => $cat_moth ) {
-				if ($this->plxMotor->aCats[$cat_moth]['mother'] !=="0") {
-				$cat_id=$cat_moth;
+		if('<?= $this->getParam('catDisplay') ?>'!="1") {
+			if (($catIdCount === 1 ) && ($this->plxMotor->aCats[ $currentCats[0]]['mother'] !=="1")){
+				$cat_id .= $this->plxMotor->aCats[ $currentCats[0]]['daughterOf'];
+				} else {
+				foreach($currentCats as $art_cat => $cat_moth ) {
+					if ($this->plxMotor->aCats[$cat_moth]['mother'] !=="0") {
+					$cat_id=$cat_moth;
+					}
 				}
-
 			}
 		}
-		
-
-
 	}
 	
 <?php
@@ -453,7 +447,7 @@ class categories extends plxPlugin {
 			#on recherche la catégorie mother principale
 			if ($this->plxMotor->aCats[$catNum]['mother'] !=="0") {
 				$filter[]=$catNum;		
-						}
+				}
 		}
 
 		#on verifie que l'on a bien un filtre, sinon on sort:
@@ -501,8 +495,10 @@ class categories extends plxPlugin {
 	if(!$_POST['archive']) {//filter plugin LesFables 
 		#si ajout catégorie a partir de la page d'edition d'un article
 		if($_POST['new_catname']) { // on genere les deux attributs avec leur valeurs par défaut
-			$this->aCats[$cat_id]['mother'] = '0';
+	
+			$this->aCats[$cat_id]['mother'] = '1';
 			$this->aCats[$cat_id]['daughterOf'] = '000';	//home
+
 		}
 		#sinon
 		 else {
@@ -525,6 +521,7 @@ class categories extends plxPlugin {
 
 		echo self::BEGIN_CODE;
 ?>
+
 		$this->aCats[$cat_id]['mother'    ] = $content[$cat_id.'_mother'];
 		$this->aCats[$cat_id]['daughterOf'] = $content[$cat_id.'_daughterOf'];
 
@@ -548,8 +545,13 @@ class categories extends plxPlugin {
 		$attr1 = ' mother="'.$mother.'" ';
 		$attr2 = ' daughterOf="'.$daughterOf.'" ';
 		$search='<categorie ';
+		if ( version_compare(PLX_VERSION, '5.8.10', '<') )  {
 		$xml = preg_replace('~(.*)' . preg_quote($search, '~') . '~su', '${1}'.$search.$attr1.$attr2, $xml);
-
+		}
+		else {
+		echo"		<mother>$mother</mother>
+		<daughterOf>$daughterOf</daughterOf>".PHP_EOL;
+		}
 <?php
 		echo self::END_CODE;
 	}
@@ -564,8 +566,17 @@ class categories extends plxPlugin {
 
 		echo self::BEGIN_CODE;
 ?>
-		$this->aCats[$number]['mother']    =isset($attributes['mother'])     ? $attributes['mother']:'0';
-		$this->aCats[$number]['daughterOf']=isset($attributes['daughterOf']) ? $attributes['daughterOf']:'000';
+		if ( version_compare(PLX_VERSION, '5.8.10', '<') )  {
+			$this->aCats[$number]['mother']    =isset($attributes['mother'])     ? $attributes['mother']:'0';
+			$this->aCats[$number]['daughterOf']=isset($attributes['daughterOf']) ? $attributes['daughterOf']:'000';
+		}else {
+		# Récupération des statuts mother et daughterOf
+			$mother = plxUtils::getValue($iTags['mother'][$i]);
+			$this->aCats[$number]['mother']=plxUtils::getValue($values[$mother]['value']);
+			$daughterOf = plxUtils::getValue($iTags['daughterOf'][$i]);
+			$this->aCats[$number]['daughterOf']=plxUtils::getValue($values[$daughterOf]['value']);
+		}
+		
 <?php
 		echo self::END_CODE;
 	}

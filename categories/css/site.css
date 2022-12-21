@@ -6,25 +6,6 @@ li{border-radius:5px;}
 .menu.breadcrumb.repertory a {width:auto;}
 
 
-/* experimental 
-ul.cat-list{
-  margin-bottom: 1em
-}
-.cat-list li:first-of-type ~li{
-  overflow:hidden;
-  max-height:0;
-  opacity:0;
-  margin:0;
-  transition: 0.5s 10s;/* un delai long avant fermeture */
-  /*
-}
-.cat-list:hover li:first-of-type ~li{
-  max-height:3.6em;
-  opacity:1;
-  transition:0.5s;
-}*/
-
-
 .menu.cat-list  li {
   display:block;
   margin:0
@@ -45,12 +26,4 @@ ul.cat-list{
 }
 .menu.cat-list ul {
   position:static;
-}
-
-/* simulacre de menu déroulant dans la sidebar */
-.cat-list > [data-mother="1"]:first-child ~li {
-  display:none;
-}
-.cat-list:hover > [data-mother="1"]:first-child ~li {
-  display:list-item;
 }
