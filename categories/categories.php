@@ -271,7 +271,7 @@ class categories extends plxPlugin {
 			}#fin ajout clé
 		} #fin de boucle sur les catégories actives
 					 
-		if(@!isset($this->plxMotor->aCats[$this->catId(true)[0]]) && $this->plxMotor->mode !=='categorie' ){$catfilter=0;}else{$catfilter=$this->plxMotor->aCats[$this->catId(true)[0]]['articles'];}
+		if($this->plxMotor->mode !=='article' &&  $this->plxMotor->mode !=='categorie' ){$catfilter=0;}else{$catfilter=$this->plxMotor->aCats[$this->catId(true)[0]]['articles'];}
 		if(($this->plxMotor->mode ==='archives') || ($this->plxMotor->mode ==='search') || '<?= $this->getParam('catDisplay') ?>' =="1" || $catfilter === 0  )$okay=false;
 
 		#Si l'on a trouvé au moins une categorie mere ont fait le tri de l'affichage dans le menu catégorie.
