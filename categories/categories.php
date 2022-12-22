@@ -1,6 +1,6 @@
 <?php
 if(!defined('PLX_ROOT')) {
-	die('oups, says dev-3-niveaux');
+	die('oups, says v3.5.8.10');
 }
 
 class categories extends plxPlugin {
