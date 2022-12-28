@@ -3,6 +3,11 @@
 
 
 # plx-gc-categories
+
+
+Un thème https://github.com/gcyrillus/theme-sub-cat-list embarque un script permettant de structurer sur plusieurs niveaux l'affichage des catégories dans la sidebar. Ce thème embarque aussi les scripts générant les données structurées ainsi que quelques attributs dédié à l'accéssibilité numérique. Ce thème est dèjà configurer pour le plugin, mais ne necessite pas que le plugin soit activé.
+
+
 [+] Compatibilité pluxml 5.8.10
 
 [+] donne le choix de filtrer ou non les catégories dans la sidebar , par défaut le filtre est activé si la page en cours est réliées à une catégorie mére.
