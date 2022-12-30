@@ -24,7 +24,8 @@ class categories extends plxPlugin {
 		'AdminCategory',
 		'AdminCategoriesPrepend',
 		'AdminArticlePrepend',
-		'plxShowStaticListEnd',
+		'plxShowStaticListEnd',		
+		'ThemeEndHead',
 	);
 	const BEGIN_CODE = '<?php' . PHP_EOL;
 	const END_CODE = PHP_EOL . '?>';
@@ -775,7 +776,34 @@ public function plxShowStaticListEnd() {
 
 }	
 	
-	
+	 /**
+	 * Méthode qui injecte une feuille de style pour filtrée les catégories  d'un article
+	 *
+	 * Sont exclues à l'affichage les catégories mère
+	 * Ne sont affichée que les catégories filles auxquelles l'article est rattaché.
+	 *
+	 **/
+		
+public function ThemeEndHead() {	
+?>
+		<!-- <?= __CLASS__ ?> plugin -->
+		<style type="text/css">
+		<?php
+	// parcours catégories , recherche statut mère/fille et création de tableau
+	global $plxShow;
+		foreach(array_keys($plxShow->plxMotor->aCats) as $array_key) {
+			#on recherche si l'on a des categorie avec l'attribut mother a 1  et l'on crée une entrée
+			if ($plxShow->plxMotor->aCats[$array_key]['mother'] =='1') {
+				$mothersGroup[$array_key][]=$plxShow->plxMotor->aCats[$array_key]['name'];
+				echo '.classified-in a[href*="categorie'.intval($array_key).'"], article a[href*="categorie'.intval($array_key).'"] {display:none;}
+				' ;
+			  }
+		}
+		echo '.classified-in  a[href*="categorie"] + a:before{ content:\', \';color:gray;}';		?>
+		</style>
+
+			<?php
+}		
 	
 	
 }
