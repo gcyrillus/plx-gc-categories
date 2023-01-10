@@ -19,7 +19,7 @@ class categories extends plxPlugin {
 		'plxAdminEditCategoriesUpdate',
 		'plxAdminEditCategoriesXml',
 		'plxAdminEditCategorie',
-	        'AdminCategoryTop',
+		'AdminCategoryTop',
 		'AdminCategoriesTop',
 		'AdminCategory',
 		'AdminCategoriesPrepend',
@@ -271,8 +271,18 @@ class categories extends plxPlugin {
 				}
 			}#fin ajout clé
 		} #fin de boucle sur les catégories actives
-					 
-		if($this->plxMotor->mode !=='article' &&  $this->plxMotor->mode !=='categorie' ){$catfilter=0;}else{$catfilter=$this->plxMotor->aCats[$this->catId(true)[0]]['articles'];}
+		 
+		if($this->plxMotor->mode !=='article' &&  $this->plxMotor->mode !=='categorie' ){
+			$catfilter=0;
+		}
+		else{
+			if($this->catId(true)){
+				$catfilter=$this->plxMotor->aCats[$this->catId(true)[0]]['articles'];
+			}
+			else {
+				$catfilter=0;// defaut
+			}
+		}
 		if(($this->plxMotor->mode ==='archives') || ($this->plxMotor->mode ==='search') || '<?= $this->getParam('catDisplay') ?>' =="1" || $catfilter === 0  )$okay=false;
 
 		#Si l'on a trouvé au moins une categorie mere ont fait le tri de l'affichage dans le menu catégorie.
@@ -497,7 +507,7 @@ class categories extends plxPlugin {
 		#si ajout catégorie a partir de la page d'edition d'un article
 		if($_POST['new_catname']) { // on genere les deux attributs avec leur valeurs par défaut
 	
-			$this->aCats[$cat_id]['mother'] = '1';
+			$this->aCats[$cat_id]['mother'] = '0';
 			$this->aCats[$cat_id]['daughterOf'] = '000';	//home
 
 		}
