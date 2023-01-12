@@ -462,7 +462,7 @@ class categories extends plxPlugin {
 		}
 
 		#on verifie que l'on a bien un filtre, sinon on sort:
-		if($filter !=='') {
+		if($filter) {
 		
 		#on filtre les articles reliée a la categorie $filter
 		foreach($filter as $keytest => $ask ) {
