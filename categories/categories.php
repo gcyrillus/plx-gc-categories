@@ -276,7 +276,7 @@ class categories extends plxPlugin {
 			$catfilter=0;
 		}
 		else{
-			if($this->catId(true)){
+			if($this->catId(true) && $this->catId(true)[0] !=='home'){	
 				$catfilter=$this->plxMotor->aCats[$this->catId(true)[0]]['articles'];
 			}
 			else {
