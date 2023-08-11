@@ -24,5 +24,7 @@ Pour en faire usage: remplacer dans sidebar.php la fonction `<?php $plxShow->cat
 
 
 [+] breadcrumbs now can show the 3 levels
+
 [+] init var $cssSelector to avoid warnings
+
 [+] fr-help update 
