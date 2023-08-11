@@ -556,13 +556,13 @@ class categories extends plxPlugin {
 		$attr1 = ' mother="'.$mother.'" ';
 		$attr2 = ' daughterOf="'.$daughterOf.'" ';
 		$search='<categorie ';
-		if ( version_compare(PLX_VERSION, '5.8.10', '<') )  {
+		/*if ( version_compare(PLX_VERSION, '5.8.10', '<') )  { // no longer needed as of 08/2023
 		$xml = preg_replace('~(.*)' . preg_quote($search, '~') . '~su', '${1}'.$search.$attr1.$attr2, $xml);
 		}
-		else {
+		else {*/
 		echo"		<mother>$mother</mother>
 		<daughterOf>$daughterOf</daughterOf>".PHP_EOL;
-		}
+		/*}*/
 <?php
 		echo self::END_CODE;
 	}
@@ -577,16 +577,16 @@ class categories extends plxPlugin {
 
 		echo self::BEGIN_CODE;
 ?>
-		if ( version_compare(PLX_VERSION, '5.8.10', '<') )  {
+		/*if ( version_compare(PLX_VERSION, '5.8.10', '<') )  { //  no longer needed as of 08/2023
 			$this->aCats[$number]['mother']    =isset($attributes['mother'])     ? $attributes['mother']:'0';
 			$this->aCats[$number]['daughterOf']=isset($attributes['daughterOf']) ? $attributes['daughterOf']:'000';
-		}else {
+		}else {*/
 		# Récupération des statuts mother et daughterOf
 			$mother = plxUtils::getValue($iTags['mother'][$i]);
 			$this->aCats[$number]['mother']=plxUtils::getValue($values[$mother]['value']);
 			$daughterOf = plxUtils::getValue($iTags['daughterOf'][$i]);
 			$this->aCats[$number]['daughterOf']=plxUtils::getValue($values[$daughterOf]['value']);
-		}
+		/*}*/
 		
 <?php
 		echo self::END_CODE;
