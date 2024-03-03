@@ -75,7 +75,8 @@ include 'top.php';
 				//echo '<pre>';var_dump($v);echo'</pre>';
 					$data="cat";
 					if($v['mother']=="1"){ $data="mother";}
-					if($v['daughterOf'] !=='000'){
+					if($v['daughterOf'] == false ) $v['daughterOf'] ='000';
+					if($v['daughterOf'] !=='000' ){
 						if($plxAdmin->aCats[$v['daughterOf']]['mother'] =="1" ){ $daughterOf=$v['daughterOf'];}
 						if(isset($plxAdmin->aCats[$plxAdmin->aCats[$v['daughterOf']]['daughterOf']])) { $daughterOf= $plxAdmin->aCats[$v['daughterOf']]['daughterOf'];}
 					} else {$daughterOf='000';}
