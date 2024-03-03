@@ -118,7 +118,8 @@ class categories extends plxPlugin {
 			if($this->plxMotor->aCats[$catKey]['daughterOf'] !=='000'  &&  $this->plxMotor->aCats[$catKey]['articles'] !== 0 ){
 				$catdaughters[]=$catKey;
 				
-				# test si 3eme niveau
+				# test si 3eme niveau				
+				if(isset($this->plxMotor->aCats[$this->plxMotor->aCats[$catKey]['daughterOf']])   ) {
 				if($this->plxMotor->aCats[$this->plxMotor->aCats[$catKey]['daughterOf']]['mother'] !=='1' ) {
 					if($this->plxMotor->mode !=='home' && !isset($_GET['preview']) && $this->plxMotor->mode !=='static' && $this->plxMotor->mode !==$modeFound && isset($this->catId(true)[0]) ){
 						$checkmother[]=$this->plxMotor->aCats[$this->catId(true)[0]]['daughterOf'];
@@ -133,6 +134,7 @@ class categories extends plxPlugin {
 					if(in_array($this->catId(true)[0],$checkmother)) {
 						$cat_to_set[]=$catKey;  
 					}	
+				}
 				}
 			}
 		}
@@ -339,7 +341,7 @@ class categories extends plxPlugin {
 								# on a des articles pour cette catégorie ou on affiche les catégories sans article
 								
 								#experimental - test brut avec 3eme niveau
-								if($v['daughterOf'] !=='000' && $AllOMyCats[$v['daughterOf']]['mother'] !="1" ) {$myCatName = '&nbsp;'. plxUtils::strCheck($v['name']);}
+								if($this->plxMotor->mode !=='erreur' && isset($this->plxMotor->aCats[$this->plxMotor->aCats[$catKey]['daughterOf']]) && $v['daughterOf'] !=='000' && $AllOMyCats[$v['daughterOf']]['mother'] !="1" ) {$myCatName = '&nbsp;'. plxUtils::strCheck($v['name']);}
 								else{
 									$myCatName = plxUtils::strCheck($v['name']);
 								}
@@ -626,6 +628,7 @@ class categories extends plxPlugin {
 					if($value['mother']==="1"){
 						$MotherArray[$key]=$value['name'];// on rempli le tableau
 					}
+					if($value['daughterOf'] != true) $value['daughterOf']="000";
 					if($value['daughterOf']!=="000" && $plxAdmin->aCats[$value['daughterOf']]['mother']==="1"){
 						$MotherArray[$key]=$value['name'];// on rempli le tableau
 						$cssSelector[]='option[value="'.$key.'"] ';
